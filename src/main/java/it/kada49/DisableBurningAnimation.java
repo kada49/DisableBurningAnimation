@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import java.io.File;
 
 
-@Mod(name = "DisableBurningAnimation", modid = DisableBurningAnimation.ID, version = "1.0", updateJSON = "https://kada49.github.io/json/DisableBurningAnimation-updateJson.json")
+@Mod(name = "DisableBurningAnimation", modid = DisableBurningAnimation.ID, version = "1.1", updateJSON = "https://kada49.github.io/json/DisableBurningAnimation-updateJson.json")
 public class DisableBurningAnimation {
 
     public static final String ID = "disableburninganimation";
