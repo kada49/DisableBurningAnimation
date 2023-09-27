@@ -14,7 +14,7 @@ import static it.kada49.DisableBurningAnimation.ENABLED;
 public class ToggleCommand extends CommandBase {
     @Override
     public String getCommandName() {
-        return "disableburninganimation";
+        return DisableBurningAnimation.ID;
     }
 
     @Override

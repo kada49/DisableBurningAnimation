@@ -14,8 +14,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import java.io.File;
 
 
-@Mod(name = "DisableBurningAnimation", modid = "disableburninganimation", version = "1.0", updateJSON = "https://kada49.github.io/json/DisableBurningAnimation-updateJson.json")
+@Mod(name = "DisableBurningAnimation", modid = DisableBurningAnimation.ID, version = "1.0", updateJSON = "https://kada49.github.io/json/DisableBurningAnimation-updateJson.json")
 public class DisableBurningAnimation {
+
+    public static final String ID = "disableburninganimation";
 
     public static Property ENABLED;
     public static Configuration CONFIG;
@@ -27,7 +29,7 @@ public class DisableBurningAnimation {
 
         MinecraftForge.EVENT_BUS.register(this);
 
-        File configFile = new File(Loader.instance().getConfigDir(), "disableburninganimation.cfg");
+        File configFile = new File(Loader.instance().getConfigDir(), ID + ".cfg");
         CONFIG = new Configuration(configFile);
         CONFIG.load();
         ENABLED = CONFIG.get("General", "burningEnabled", true);
