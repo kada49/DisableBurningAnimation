@@ -2,8 +2,7 @@ import dev.architectury.pack200.java.Pack200Adapter
 
 plugins {
     java
-    kotlin("jvm") version ("1.8.22")
-    id("gg.essential.loom") version ("1.2.8")
+    id("gg.essential.loom") version ("1.3.12")
     id("dev.architectury.architectury-pack200") version ("0.1.3")
 }
 
