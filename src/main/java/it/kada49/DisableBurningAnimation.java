@@ -1,46 +1,49 @@
 package it.kada49;
 
-import net.minecraftforge.client.ClientCommandHandler;
-import net.minecraftforge.client.event.RenderBlockOverlayEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import com.mojang.brigadier.Command;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.fabricmc.loader.api.FabricLoader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.nio.file.Path;
+
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+
+public class DisableBurningAnimation implements ModInitializer {
+
+	public static final String ID = "disableburninganimation";
+
+	public static boolean BURNING_ENABLED = true;
+	public static Logger LOGGER = LogManager.getLogger(ID);
 
 
-@Mod(name = "DisableBurningAnimation", modid = DisableBurningAnimation.ID, version = "1.1", updateJSON = "https://kada49.github.io/json/DisableBurningAnimation-updateJson.json")
-public class DisableBurningAnimation {
+	@Override
+	public void onInitialize() {
+		Path configPath = FabricLoader.getInstance().getConfigDir();
+		File configFile = new File(configPath.toFile().getAbsolutePath() + "/" + ID + ".json");
 
-    public static final String ID = "disableburninganimation";
-
-    public static Property ENABLED;
-    public static Configuration CONFIG;
-
-    @EventHandler
-    @SuppressWarnings("unused")
-    public void init(FMLInitializationEvent event) {
-        ClientCommandHandler.instance.registerCommand(new ToggleCommand());
-
-        MinecraftForge.EVENT_BUS.register(this);
-
-        File configFile = new File(Loader.instance().getConfigDir(), ID + ".cfg");
-        CONFIG = new Configuration(configFile);
-        CONFIG.load();
-        ENABLED = CONFIG.get("General", "burningEnabled", true);
-        CONFIG.save();
-    }
-
-    @SubscribeEvent
-    @SuppressWarnings("unused")
-    public void blockOverlayEvent(RenderBlockOverlayEvent event) {
-        if (event.overlayType == RenderBlockOverlayEvent.OverlayType.FIRE && !ENABLED.getBoolean()) {
-            event.setCanceled(true);
+        if (!configFile.exists())
+            Configuration.create(configFile);
+        else {
+            Configuration c = Configuration.get(configFile);
+            BURNING_ENABLED = c.isBurningEnabled();
         }
-    }
+
+
+        Command<FabricClientCommandSource> command = context -> {
+            BURNING_ENABLED = !BURNING_ENABLED;
+            Configuration.update(configFile, BURNING_ENABLED);
+            return 1;
+        };
+
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess)
+				-> dispatcher.register(literal(ID).executes(command)));
+
+		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess)
+				-> dispatcher.register(literal("dba").executes(command)));
+	}
 }
