@@ -11,64 +11,59 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
+import static it.kada49.DisableBurningAnimation.BURNING_ENABLED;
 import static it.kada49.DisableBurningAnimation.LOGGER;
 
 @Setter
 @Getter
 public class Configuration {
     private boolean burningEnabled = true;
+    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static Configuration create(File configFile) throws RuntimeException{
         LOGGER.info("Generating new Configuration");
-        Configuration c;
+        Configuration config;
         try {
             Writer writer = Files.newBufferedWriter(configFile.toPath(), StandardCharsets.UTF_8);
-            c = new Configuration();
 
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            JsonElement e = gson.toJsonTree(c);
+            config = new Configuration();
+            gson.toJson(gson.toJsonTree(config), writer);
 
-            gson.toJson(e, writer);
-            writer.flush();
             writer.close();
-            return c;
+            return config;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static Configuration get(File configFile) {
-        Configuration c;
+        Configuration config;
         try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             Reader reader = Files.newBufferedReader(configFile.toPath(), StandardCharsets.UTF_8);
             JsonElement e = JsonParser.parseReader(reader);
             reader.close();
-            c = gson.fromJson(e, Configuration.class);
-        } catch (IOException e) { c = new Configuration(); }
+            config = gson.fromJson(e, Configuration.class);
+        } catch (IOException e) { config = new Configuration(); }
         catch (JsonParseException e) {
             LOGGER.info("Could not parse config, creating new one.");
             deleteFile(configFile);
             return create(configFile);
         }
 
-        return c;
+        return config;
     }
 
     private static void deleteFile(File configFile) throws RuntimeException {
         if (!configFile.delete()) throw new RuntimeException();
     }
 
-    public static void update(File configFile, boolean newBurningEnabled) {
+    public static void update(File configFile) {
         try {
             Writer writer = Files.newBufferedWriter(configFile.toPath(), StandardCharsets.UTF_8);
-            Configuration c = new Configuration();
-            c.setBurningEnabled(newBurningEnabled);
-            JsonElement e = new Gson().toJsonTree(c);
-            new Gson().toJson(e, writer);
-            writer.flush();
+            Configuration config = new Configuration();
+            config.setBurningEnabled(BURNING_ENABLED);
+            gson.toJson(gson.toJsonTree(config), writer);
             writer.close();
-            LOGGER.info("Updated and saved config to burningEnabled = " + newBurningEnabled);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
