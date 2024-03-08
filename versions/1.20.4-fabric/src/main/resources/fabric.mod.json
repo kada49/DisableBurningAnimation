@@ -1,0 +1,29 @@
+{
+	"schemaVersion": 1,
+	"id": "disableburninganimation",
+	"version": "${version}",
+	"name": "DisableBurningAnimation",
+	"description": "Disables the burning animation overlay. Mostly used in the Hypixel SkyBlock Floor 7 Dungeon. Toggle with '/disableburninganimation' or '/dba'.",
+	"authors": ["kada49"],
+	"contact": {
+		"homepage": "https://github.com/kada49/DisableBurningAnimation",
+		"sources": "https://github.com/kada49/DisableBurningAnimation"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/disableburninganimation/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"it.kada49.DisableBurningAnimation"
+		]
+	},
+	"mixins": [
+		"disableburninganimation.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.7",
+		"minecraft": "~1.20.4",
+		"java": ">=17",
+		"fabric-api": "*"
+	}
+}
