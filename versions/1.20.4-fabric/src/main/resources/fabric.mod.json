@@ -3,13 +3,11 @@
 	"id": "disableburninganimation",
 	"version": "${version}",
 	"name": "DisableBurningAnimation",
-	"description": "This is an example description! Tell everyone what your mod is about!",
-	"authors": [
-		"Me!"
-	],
+	"description": "Disables the burning animation overlay. Mostly used in the Hypixel SkyBlock Floor 7 Dungeon. Toggle with '/disableburninganimation' or '/dba'.",
+	"authors": ["kada49"],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/kada49/DisableBurningAnimation",
+		"sources": "https://github.com/kada49/DisableBurningAnimation"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/disableburninganimation/icon.png",
@@ -27,8 +25,5 @@
 		"minecraft": "~1.20.4",
 		"java": ">=17",
 		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
 	}
 }
