@@ -1,6 +1,6 @@
 plugins {
-	id("fabric-loom") version "1.5-SNAPSHOT"
-	id("io.freefair.lombok") version "8.6"
+	id("fabric-loom") version "1.8-SNAPSHOT"
+	id("io.freefair.lombok") version "8.10.2"
 }
 
 version = property("modVersion")!!
@@ -29,14 +29,14 @@ tasks {
 	}
 
 	withType<JavaCompile>().configureEach {
-		options.release.set(17)
+		options.release.set(21)
 	}
 
 	java {
 		withSourcesJar()
 
-		sourceCompatibility = JavaVersion.VERSION_17
-		targetCompatibility = JavaVersion.VERSION_17
+		sourceCompatibility = JavaVersion.VERSION_21
+		targetCompatibility = JavaVersion.VERSION_21
 	}
 
 	jar {
