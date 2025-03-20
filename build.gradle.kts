@@ -1,6 +1,6 @@
 plugins {
-	id("fabric-loom") version "1.8-SNAPSHOT"
-	id("io.freefair.lombok") version "8.10.2"
+	id("fabric-loom") version "1.10-SNAPSHOT"
+	id("io.freefair.lombok") version "8.13"
 }
 
 version = property("modVersion")!!
