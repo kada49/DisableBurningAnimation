@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(InGameOverlayRenderer.class)
 public class InGameOverlayRendererMixin {
 	@Inject(at = @At("HEAD"), method = "renderFireOverlay", cancellable = true)
-	private static void init(MatrixStack matrices, VertexConsumerProvider vertexConsumers, CallbackInfo info) {
+	private static void init(MinecraftClient client, MatrixStack matrices, CallbackInfo info) {
 		if (!DisableBurningAnimation.BURNING_ENABLED) info.cancel();
 	}
 }
