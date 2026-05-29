@@ -1,7 +1,7 @@
 {
 	"required": true,
 	"package": "it.kada49.mixin",
-	"compatibilityLevel": "JAVA_21",
+	"compatibilityLevel": "${javaVersion}",
 	"mixins": [
 		"InGameOverlayRendererMixin"
 	],

@@ -12,35 +12,42 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
+
+//#if MC>=260100
+//$$ import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
+//#else
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+//#endif
 
 public class DisableBurningAnimation implements ModInitializer {
 
-	private static final String ID = "disableburninganimation";
-	public static final Logger LOGGER = LogManager.getLogger(ID);
+    private static final String ID = "disableburninganimation";
+    public static final Logger LOGGER = LogManager.getLogger(ID);
+    public static boolean BURNING_ENABLED = true;
     private final File configFile = new File(FabricLoader.getInstance().getConfigDir().toAbsolutePath() + "/" + ID + ".json");
 
-    public static boolean BURNING_ENABLED = true;
-
-	@Override
-	public void onInitialize() {
-
-        if (!configFile.exists())
+    @Override
+    public void onInitialize() {
+        if (!configFile.exists()) {
             Configuration.create(configFile);
-        else {
+        } else {
             Configuration config = Configuration.get(configFile);
             BURNING_ENABLED = config.isBurningEnabled();
         }
 
         registerToggleCommand();
-	}
+    }
 
     private void registerToggleCommand() {
         Command<FabricClientCommandSource> command = context -> {
             BURNING_ENABLED = !BURNING_ENABLED;
             Configuration.update(configFile);
-            String message = "Burning animation " + (BURNING_ENABLED ? "enabled" : "disabled" ) + ".";
+            String message = "Burning animation " + (BURNING_ENABLED ? "enabled" : "disabled") + ".";
+            //#if MC>=260100
+            //$$ Minecraft.getInstance().gui.getChat().addClientSystemMessage(Component.literal(message));
+            //#else
             MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.literal(message));
+            //#endif
             return 1;
         };
 

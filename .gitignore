@@ -30,3 +30,8 @@ build
 run
 .DS_Store
 Thumbs.db
+
+versions/.gradle
+versions/build
+versions/run
+versions/src

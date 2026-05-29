@@ -1,20 +1,19 @@
 plugins {
-	id("fabric-loom") version "1.11-SNAPSHOT"
-	id("io.freefair.lombok") version "8.14.2"
+  id("gg.essential.multi-version")
+  id("gg.essential.defaults")
+  id("io.freefair.lombok") version "9.5.0"
 }
 
 version = property("modVersion")!!
 group = property("modGroup")!!
 
 base {
-	archivesName.set(property("modName")!!.toString())
+	archivesName.set(property("modName")!!.toString() + "-$platform")
 }
 
-dependencies {
-	minecraft("com.mojang:minecraft:${property("minecraft_version")!!}")
-	mappings("net.fabricmc:yarn:${property("yarn_mappings")}:v2")
-	modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
 
+dependencies {
+	modImplementation("net.fabricmc:fabric-loader:0.16.14")
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
 }
 
@@ -23,20 +22,28 @@ tasks {
 	processResources {
 		inputs.property("version", project.version)
 
-		filesMatching("fabric.mod.json") {
-			expand("version" to project.version)
+        filesMatching("fabric.mod.json") {
+            expand(
+                "version" to project.version,
+                "mcVersion" to platform.mcVersionStr,
+                "javaVersion" to platform.javaVersion.toString(),
+            )
+        }
+
+        filesMatching("disableburninganimation.mixins.json") {
+            expand("javaVersion" to "JAVA_${platform.javaVersion}")
 		}
 	}
 
 	withType<JavaCompile>().configureEach {
-		options.release.set(21)
+		options.release.set(platform.javaVersion.toString().toInt())
 	}
 
 	java {
 		withSourcesJar()
 
-		sourceCompatibility = JavaVersion.VERSION_21
-		targetCompatibility = JavaVersion.VERSION_21
+		sourceCompatibility = platform.javaVersion
+		targetCompatibility = platform.javaVersion
 	}
 
 	jar {
