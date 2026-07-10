@@ -43,10 +43,14 @@ public class DisableBurningAnimation implements ModInitializer {
             BURNING_ENABLED = !BURNING_ENABLED;
             Configuration.update(configFile);
             String message = "Burning animation " + (BURNING_ENABLED ? "enabled" : "disabled") + ".";
+            //#if MC>=260200
+            //$$ Minecraft.getInstance().gui.hud.getChat().addClientSystemMessage(Component.literal(message));
+            //#else
             //#if MC>=260100
             //$$ Minecraft.getInstance().gui.getChat().addClientSystemMessage(Component.literal(message));
             //#else
             MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.literal(message));
+            //#endif
             //#endif
             return 1;
         };

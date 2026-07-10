@@ -30,6 +30,7 @@ preprocess {
     val fabric260100 = createNode("fabric-26.1", 260100, "yarn")
     val fabric260101 = createNode("fabric-26.1.1", 260101, "yarn")
     val fabric260102 = createNode("fabric-26.1.2", 260102, "yarn")
+    val fabric260200 = createNode("fabric-26.2", 260200, "yarn")
 
 
     // fabric12001.link(fabric12000)
@@ -80,4 +81,5 @@ preprocess {
     fabric12111.link(fabric260100)
     fabric260100.link(fabric260101)
     fabric260101.link(fabric260102)
+    fabric260102.link(fabric260200)
 }
